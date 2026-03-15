@@ -77,8 +77,6 @@ Este projeto é um backend desenvolvido como parte do desafio prático do curso 
 - **Segmento:** TECNOLOGIA, COMERCIO, INDUSTRIA, SERVICOS, AGRONEGOCIO
 - **Status:** ATIVO (true), INATIVO (false)
 
-## Testes
-Inclua testes em `src/test/kotlin` para validar os casos de uso e endpoints.
 
 ## Contato
 Jucinei Luiz Belo - jucineibelo@gmail.com
