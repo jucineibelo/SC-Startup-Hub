@@ -1,0 +1,19 @@
+
+SC Startup Hub pode ser entendido como:
+Plataforma central para registro e gestão de empreendimentos em Santa Catarina.
+
+
+SC - Isso indica que o sistema é voltado para:
+* empreendimentos do estado
+* iniciativas regionais
+* organização de dados locais
+
+Startup - Representa empreendimentos ou novos negócios.
+
+Representa empreendimentos ou novos negócios. Mesmo que o sistema também registre:
+* comércio
+* indústria
+* serviços
+* agronegócio
+* tecnologia
+o termo startup transmite a ideia de inovação e empreendedorismo.
