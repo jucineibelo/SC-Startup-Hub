@@ -5,6 +5,7 @@ import com.scstartup.entrypoint.dto.EmpreendimentoCreateRequest
 import com.scstartup.entrypoint.dto.EmpreendimentoResponse
 import com.scstartup.entrypoint.dto.EmpreendimentoUpdateRequest
 import com.scstartup.entrypoint.mapper.EmpreendimentoApiMapper
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -17,7 +18,7 @@ class EmpreendimentoController(
 ) {
 
     @PostMapping
-    fun criar(@RequestBody request: EmpreendimentoCreateRequest): ResponseEntity<EmpreendimentoResponse> {
+    fun criar(@Valid @RequestBody request: EmpreendimentoCreateRequest): ResponseEntity<EmpreendimentoResponse> {
         val salvo = useCase.salvarEmpreendimento(mapper.toDomain(request))
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toResponse(salvo))
     }
@@ -38,7 +39,7 @@ class EmpreendimentoController(
     @PutMapping("/{id}")
     fun atualizar(
         @PathVariable id: Long,
-        @RequestBody request: EmpreendimentoUpdateRequest
+        @Valid @RequestBody request: EmpreendimentoUpdateRequest
     ): ResponseEntity<EmpreendimentoResponse> {
         val atualizado = useCase.atualizarEmpreendimento(mapper.toDomain(request, id))
         return ResponseEntity.ok(mapper.toResponse(atualizado))

@@ -1,8 +1,6 @@
 package com.scstartup.infrastructure.mapper
 
 import com.scstartup.core.domain.Empreendimento
-import com.scstartup.core.enums.Segmento
-import com.scstartup.core.enums.Status
 import com.scstartup.infrastructure.database.entity.EmpreendimentoH2Entity
 import org.springframework.stereotype.Component
 
@@ -15,9 +13,9 @@ class EmpreendimentoEntityMapper {
             nome = entity.nome,
             empreendedor = entity.empreendedor,
             municipio = entity.municipio,
-            segmento = Segmento.valueOf(entity.segmento),
+            segmento = entity.segmento,
             contato = entity.contato,
-            status = Status.valueOf(entity.status)
+            status = entity.status
         )
     }
 
@@ -27,9 +25,9 @@ class EmpreendimentoEntityMapper {
             nome = domain.nome,
             empreendedor = domain.empreendedor,
             municipio = domain.municipio,
-            segmento = domain.segmento.name,
+            segmento = domain.segmento ?: throw IllegalStateException("Segmento não pode ser nulo ao salvar"),
             contato = domain.contato,
-            status = domain.status.name
+            status = domain.status ?: throw IllegalStateException("Status não pode ser nulo ao salvar")
         )
     }
 }
