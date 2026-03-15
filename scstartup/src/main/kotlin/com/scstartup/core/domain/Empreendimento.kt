@@ -8,7 +8,7 @@ class Empreendimento(
     var nome: String,
     var empreendedor: String,
     var municipio: String,
-    val segmento: Segmento,
+    var segmento: Segmento?,
     var contato: String,
-    val status: Status
+    var status: Status?
 )

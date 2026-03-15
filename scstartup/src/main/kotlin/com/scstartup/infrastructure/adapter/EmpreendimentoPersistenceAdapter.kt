@@ -1,6 +1,7 @@
 package com.scstartup.infrastructure.adapter
 
 import com.scstartup.core.domain.Empreendimento
+import com.scstartup.core.exception.EmpreendimentoNotFoundException
 import com.scstartup.core.gateway.EmpreendimentoGateway
 import com.scstartup.infrastructure.database.entity.EmpreendimentoH2Entity
 import com.scstartup.infrastructure.database.repository.EmpreendimentoRepository
@@ -26,20 +27,23 @@ class EmpreendimentoPersistenceAdapter(
 
     override fun atualizarEmpreendimento(empreendimento: Empreendimento): Empreendimento {
         val existente = empreendimentoRepository.findById(empreendimento.id!!)
-            .orElseThrow { RuntimeException("Empreendimento não encontrado") }
+            .orElseThrow { EmpreendimentoNotFoundException() }
 
         if (empreendimento.nome.isNotBlank()) existente.nome = empreendimento.nome
         if (empreendimento.empreendedor.isNotBlank()) existente.empreendedor = empreendimento.empreendedor
         if (empreendimento.municipio.isNotBlank()) existente.municipio = empreendimento.municipio
         if (empreendimento.contato.isNotBlank()) existente.contato = empreendimento.contato
-        existente.segmento = empreendimento.segmento.name
-        existente.status = empreendimento.status.name
+        if (empreendimento.segmento != null) existente.segmento = empreendimento.segmento!!
+        if (empreendimento.status != null) existente.status = empreendimento.status!!
 
         val updated = empreendimentoRepository.save(existente)
         return mapper.toDomain(updated)
     }
 
     override fun deletarEmpreendimento(id: Long) {
+        if (!empreendimentoRepository.existsById(id)) {
+            throw EmpreendimentoNotFoundException()
+        }
         empreendimentoRepository.deleteById(id)
     }
 

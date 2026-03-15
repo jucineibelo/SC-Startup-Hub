@@ -1,5 +1,7 @@
 package com.scstartup.infrastructure.database.entity
 
+import com.scstartup.core.enums.Segmento
+import com.scstartup.core.enums.Status
 import jakarta.persistence.*
 
 @Entity
@@ -10,21 +12,23 @@ class EmpreendimentoH2Entity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    @Column(nullable = false)
+    @Column(name = "nome")
     var nome: String,
 
-    @Column(nullable = false)
+    @Column(name = "empreendedor")
     var empreendedor: String,
 
-    @Column(nullable = false)
+    @Column(name = "municipio")
     var municipio: String,
 
-    @Column(nullable = false)
-    var segmento: String,
+    @Enumerated(EnumType.STRING)
+    @Column(name = "segmento")
+    var segmento: Segmento,
 
-    @Column(nullable = false)
+    @Column(name = "contato")
     var contato: String,
 
-    @Column(nullable = false)
-    var status: String
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    var status: Status
 )

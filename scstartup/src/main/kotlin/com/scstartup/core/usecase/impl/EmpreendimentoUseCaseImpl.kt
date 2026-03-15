@@ -1,6 +1,7 @@
 package com.scstartup.core.usecase.impl
 
 import com.scstartup.core.domain.Empreendimento
+import com.scstartup.core.exception.EmpreendimentoNotFoundException
 import com.scstartup.core.gateway.EmpreendimentoGateway
 import com.scstartup.core.usecase.EmpreendimentoUseCase
 
@@ -29,7 +30,7 @@ class EmpreendimentoUseCaseImpl(private val empreendimentoGateway: Empreendiment
         }
 
         val existente = empreendimentoGateway.buscarEmpreendimentoPorId(empreendimento.id)
-            ?: throw RuntimeException("Empreendimento não encontrado")
+            ?: throw EmpreendimentoNotFoundException("Empreendimento não encontrado")
 
 
         if (empreendimento.nome.isNotBlank()) {
@@ -48,6 +49,10 @@ class EmpreendimentoUseCaseImpl(private val empreendimentoGateway: Empreendiment
             existente.contato = empreendimento.contato
         }
 
+        existente.segmento = empreendimento.segmento
+
+        existente.status = empreendimento.status
+
         return empreendimentoGateway.atualizarEmpreendimento(existente)
     }
 
@@ -55,10 +60,7 @@ class EmpreendimentoUseCaseImpl(private val empreendimentoGateway: Empreendiment
 
         validarId(id)
         val existente = empreendimentoGateway.buscarEmpreendimentoPorId(id)
-
-        if (existente == null) {
-            throw RuntimeException("Empreendimento não encontrado")
-        }
+            ?: throw EmpreendimentoNotFoundException("Empreendimento não encontrado")
 
         empreendimentoGateway.deletarEmpreendimento(id)
     }

@@ -1,8 +1,6 @@
 package com.scstartup.entrypoint.mapper
 
 import com.scstartup.core.domain.Empreendimento
-import com.scstartup.core.enums.Segmento
-import com.scstartup.core.enums.Status
 import com.scstartup.entrypoint.dto.EmpreendimentoCreateRequest
 import com.scstartup.entrypoint.dto.EmpreendimentoResponse
 import com.scstartup.entrypoint.dto.EmpreendimentoUpdateRequest
@@ -17,9 +15,9 @@ class EmpreendimentoApiMapper {
             nome = request.nome,
             empreendedor = request.empreendedor,
             municipio = request.municipio,
-            segmento = Segmento.valueOf(request.segmento),
+            segmento = request.segmento,
             contato = request.contato,
-            status = if (request.status) Status.ATIVO else Status.INATIVO
+            status = request.status
         )
 
 
@@ -29,22 +27,19 @@ class EmpreendimentoApiMapper {
             nome = request.nome ?: "",
             empreendedor = request.empreendedor ?: "",
             municipio = request.municipio ?: "",
-            segmento = if (request.segmento != null) Segmento.valueOf(request.segmento) else Segmento.TECNOLOGIA, // valor default
+            segmento = request.segmento, // pode ser null
             contato = request.contato ?: "",
-            status = if (request.status != null) {
-                if (request.status) Status.ATIVO else Status.INATIVO
-            } else Status.ATIVO
+            status = request.status // pode ser null
         )
 
 
-    fun toResponse(empreendimento: Empreendimento): EmpreendimentoResponse =
-        EmpreendimentoResponse(
-            id = empreendimento.id!!,
-            nome = empreendimento.nome,
-            empreendedor = empreendimento.empreendedor,
-            municipio = empreendimento.municipio,
-            segmento = empreendimento.segmento.name,
-            contato = empreendimento.contato,
-            status = empreendimento.status == Status.ATIVO
-        )
+    fun toResponse(empreendimento: Empreendimento): EmpreendimentoResponse = EmpreendimentoResponse(
+        id = empreendimento.id!!,
+        nome = empreendimento.nome,
+        empreendedor = empreendimento.empreendedor,
+        municipio = empreendimento.municipio,
+        segmento = requireNotNull(empreendimento.segmento) { "Segmento não pode ser nulo na resposta" },
+        contato = empreendimento.contato,
+        status = requireNotNull(empreendimento.status) { "Status não pode ser nulo na resposta" }
+    )
 }
